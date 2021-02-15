@@ -1,6 +1,6 @@
 <template>
   <main>
-    <messages-list class="messages" :messages="messages" />
+    <messages-list class="messages" :messages="messages" ref="messageList" />
     <form @submit.prevent="send" style="display: flex;">
       <input type="text" placeholder="New message" v-model="newMessage" />
       <button>Send</button>
@@ -37,7 +37,17 @@ export default {
         text: this.newMessage,
       });
       this.newMessage = '';
+      this.scrollToBottom();
     },
+    async scrollToBottom() {
+      await this.$nextTick();
+      const list = this.$refs.messageList.$el;
+      list.scrollTop = list.scrollHeight;
+    },
+  },
+
+  mounted() {
+    this.scrollToBottom();
   },
 };
 </script>
@@ -49,11 +59,13 @@ main {
   width: 200px;
   background-color: #efefef;
 }
+
 .messages {
   padding: 0 1rem;
   height: 300px;
   overflow: auto;
 }
+
 input {
   padding: 0.5rem;
   width: 100%;

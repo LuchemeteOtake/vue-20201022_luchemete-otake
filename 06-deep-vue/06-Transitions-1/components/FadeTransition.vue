@@ -1,4 +1,8 @@
-<template></template>
+<template>
+  <transition v-bind="$attrs" v-on="$listeners" name="fade" mode="out-in">
+    <slot></slot>
+  </transition>
+</template>
 
 <script>
 export default {
